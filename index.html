@@ -152,6 +152,7 @@ header {
   object-fit: cover; object-position: top center;
   display: block;
   z-index: 0;
+  visibility: hidden;
 }
 .cover-grid {
   z-index: 1;
@@ -173,7 +174,7 @@ header {
   background: var(--bg2);
   transition: opacity 0.5s ease;
 }
-.cover-tile.revealed { opacity: 0; }
+.cover-tile.revealed { display: none; }
 
 /* corner accents */
 .img-corner { position: absolute; width: 14px; height: 14px; border-color: var(--gold); border-style: solid; opacity: 0.65; pointer-events: none; }
@@ -476,7 +477,7 @@ header {
   gap: 0; pointer-events: none;
 }
 .cover-tile { background: var(--bg2); transition: opacity 0.5s ease; min-width: 0; min-height: 0; }
-.cover-tile.revealed { opacity: 0; }
+.cover-tile.revealed { display: none; }
 
 .img-corner { position: absolute; width: 10px; height: 10px; border-color: var(--gold); border-style: solid; opacity: 0.6; pointer-events: none; }
 .img-corner.tl { top: 4px; left: 4px;   border-width: 1px 0 0 1px; }
@@ -748,69 +749,69 @@ footer {
 <script>
 const CHARS = [
   // SWADIA
-  {id:"harlaus",  img:"Harlaus.webp",  name:"King Harlaus",         faction:"Swadia",   role:"Kral",
-    hints:["Calradia'nın en zengin krallığını yönetir","Orta bölgelerde geniş toprakları var","Süvari ordusuyla ünlüdür"]},
+  {id:"harlaus",  name:"King Harlaus",         faction:"Swadia",   role:"Kral",   img:"Harlaus.webp",
+    hints:["Orta Calradia'nın en güçlü toprak sahibi","Ağır zırhlı süvari birliklerine güvenir","Praven bu kişinin merkezi"]},
 
   // VAEGİR
-  {id:"yaroglek", img:"Yaroglek.webp", name:"King Yaroglek",         faction:"Vaegir",   role:"Kral",
-    hints:["Karların arasında hüküm sürer","Kuzey sınırlarını koruyan bir kral","Yay kullanan savaşçılarına güvenir"]},
-  {id:"atis",      img:"Atis.webp",     name:"Boyar Atis",            faction:"Vaegir",   role:"Boyar",
-    hints:["Vaegir topraklarında etkin bir soylu","Kuzey geleneklerine bağlı","Atlı birliklerini sever"]},
-  {id:"meriga",   img:"Meriga.webp",   name:"Lady Meriga",           faction:"Vaegir",   role:"Leydi",
-    hints:["Soğuk kuzey topraklarında yaşar","Asil bir ailenin ferdi","Kibar ama kararlı bir karakter"]},
+  {id:"yaroglek", name:"King Yaroglek",         faction:"Vaegir",   role:"Kral",   img:"Yaroglek.webp",
+    hints:["Soğuk kuzey topraklarında hüküm sürer","Okçu ağırlıklı ordusuyla tanınır","Reyvadin bu kişinin merkezi"]},
+  {id:"atis",     name:"Boyar Atis",            faction:"Vaegir",   role:"Boyar",  img:"Atis.webp",
+    hints:["Kuzey geleneğine bağlı bir soylu","Atlı savaşçılara komuta eder","Vaegir topraklarında nüfuz sahibi"]},
+  {id:"meriga",   name:"Lady Meriga",           faction:"Vaegir",   role:"Leydi",  img:"Meriga.webp",
+    hints:["Kuzey aristokrasisinden bir kadın","Soğuk iklimlerde yetişmiş","Soylu bir ailenin ferdi"]},
 
   // NORD
-  {id:"ragnar",   img:"Ragnar.webp",   name:"King Ragnar",           faction:"Nord",     role:"Kral",
-    hints:["Denizci bir halkın önderi","Savaş kapıya dayandığında ilk savaşa girer","Kuzey kıyılarına hükmeder"]},
-  {id:"lethwin",  img:"Lethwin.webp",  name:"Jarl Lethwin Far-Seeker",faction:"Nord",    role:"Jarl",
-    hints:["Lakabı maceraperest ruhunu yansıtır","Nord aristokrasisinin bir üyesi","Sınırları zorlayan bir komutan"]},
-  {id:"ymira",    img:"Ymira.webp",    name:"Lady Ymira",            faction:"Nord",     role:"Leydi",
-    hints:["Sarışın ve güçlü bir karakter","Ordunuza katılabilir","Savaşçı ruhlu bir leydi"]},
+  {id:"ragnar",   name:"King Ragnar",           faction:"Nord",     role:"Kral",   img:"Ragnar.webp",
+    hints:["Deniz kıyısı halkını yönetir","Kalkan duvarı taktiğiyle ünlü ordusu var","Tihr bu kişinin merkezi"]},
+  {id:"lethwin",  name:"Jarl Lethwin Far-Seeker",faction:"Nord",    role:"Jarl",   img:"Lethwin.webp",
+    hints:["Lakabı uzaklara olan ilgisinden gelir","Kuzey aristokrasisinin maceraperest üyesi","Keşfetmekten hoşlanan bir komutan"]},
+  {id:"ymira",    name:"Lady Ymira",            faction:"Nord",     role:"Leydi",  img:"Ymira.webp",
+    hints:["Savaşçı ruhuyla tanınan bir kadın","Ordunuza bizzat katılabilir","Kuzey kültüründe yetişmiş"]},
 
   // RHODOK
-  {id:"graveth",  img:"Graveth.webp",  name:"King Graveth",          faction:"Rhodok",   role:"Kral",
-    hints:["Dağlık arazilerde hüküm sürer","Mancınık ve kuşatma taktiklerinde ustadır","Güney topraklarını yönetir"]},
-  {id:"matheas",  img:"Matheas.webp",  name:"Lord Matheas",          faction:"Rhodok",   role:"Lord",
-    hints:["Dağ savunmasında uzman bir lort","Piyade ağırlıklı ordusu var","Güney Calradia'da toprakları var"]},
+  {id:"graveth",  name:"King Graveth",          faction:"Rhodok",   role:"Kral",   img:"Graveth.webp",
+    hints:["Dağlık güney bölgelerini yönetir","Mancınık ve kuşatma taktiklerine yatırım yapar","Jelkala bu kişinin merkezi"]},
+  {id:"matheas",  name:"Lord Matheas",          faction:"Rhodok",   role:"Lord",   img:"Matheas.webp",
+    hints:["Dağ savunmasında uzmanlaşmış","Piyade ağırlıklı kuvvetlere komuta eder","Güney Calradia'da toprak sahibi"]},
 
   // SARRANİD
-  {id:"arwa",     img:"Arwa.webp",     name:"Sultan Hakim ibn Arwa", faction:"Sarranid", role:"Sultan",
-    hints:["Çöl topraklarının efendisi","Sarranid geleneğini yaşatır","Güneyin en güçlü hükümdarı"]},
+  {id:"arwa",     name:"Sultan Hakim ibn Arwa", faction:"Sarranid", role:"Sultan", img:"Arwa.webp",
+    hints:["Çöl bölgelerinin efendisi","Sarranid geleneğini ve kültürünü yaşatır","Durquba bu kişinin merkezi"]},
 
   // KHERGİT
-  {id:"kradus",   img:"Kradus.webp",   name:"Noyan Kradus",          faction:"Khergit",  role:"Noyan",
-    hints:["Bozkır savaş taktiklerinde uzmandır","Atlı okçularına güvenir","Doğu topraklarında etkili"]},
-  {id:"wercheg",  img:"MBWerchegStreets.webp",  name:"Lady Wercheg",          faction:"Khergit",  role:"Leydi",
-    hints:["Bozkırda büyümüş güçlü bir kadın","At sırtını evi gibi bilir","Khergit geleneklerini yaşatır"]},
+  {id:"kradus",   name:"Noyan Kradus",          faction:"Khergit",  role:"Noyan",  img:"Kradus.webp",
+    hints:["Doğu bozkırlarında söz sahibi","Atlı okçu taktiklerinde usta","Hızlı çevreleme manevralarını sever"]},
+  {id:"wercheg",  name:"Lady Wercheg",          faction:"Khergit",  role:"Leydi",  img:"MBWerchegStreets.webp",
+    hints:["Bozkır geleneğinde yetişmiş","At sırtını evi gibi bilir","Doğu kültürünün güçlü bir kadını"]},
 
   // YOLDAŞLAR
-  {id:"borcha",   img:"Borcha_Full.webp",   name:"Borcha",                faction:"Bağımsız", role:"Yoldaş",
+  {id:"borcha",   name:"Borcha",                faction:"Bağımsız", role:"Yoldaş", img:"Borcha_Full.webp",
     hints:["Gölgelerde hareket etmeyi tercih eder","İzleme ve keşif işlerinde çok iyi","Tavern'larda bulunabilir"]},
-  {id:"bunduk",   img:"Bunduk_Head.webp",   name:"Bunduk",                faction:"Bağımsız", role:"Yoldaş",
+  {id:"bunduk",   name:"Bunduk",                faction:"Bağımsız", role:"Yoldaş", img:"Bunduk_Head.webp",
     hints:["Ok atmayı savaşmaya tercih eder","Uzaktan savaşma üzerine uzmanlaşmış","Mütevazı biri, az para ister"]},
-  {id:"firentis", img:"Firentis_Head.webp", name:"Firentis",              faction:"Bağımsız", role:"Yoldaş",
+  {id:"firentis", name:"Firentis",              faction:"Bağımsız", role:"Yoldaş", img:"Firentis_Head.webp",
     hints:["Onurunu her şeyin üstünde tutar","Ağır silahlarla savaşır","Geçmişiyle hesaplaşmaya çalışır"]},
-  {id:"jeremus",  img:"Jeremus_Head.webp",  name:"Jeremus",               faction:"Bağımsız", role:"Yoldaş",
+  {id:"jeremus",  name:"Jeremus",               faction:"Bağımsız", role:"Yoldaş", img:"Jeremus_Head.webp",
     hints:["Yaralıları iyileştirmeyi savaşmaya tercih eder","Tıp bilgisi sayesinde değerlidir","Barışçıl bir yapısı var"]},
-  {id:"katrin",   img:"Katrin_Head.webp",   name:"Katrin",                faction:"Bağımsız", role:"Yoldaş",
+  {id:"katrin",   name:"Katrin",                faction:"Bağımsız", role:"Yoldaş", img:"Katrin_Head.webp",
     hints:["Sessiz ve gözlemcidir","Arazide iz sürmekte yetenekli","Hareketleri dikkat çekmez"]},
-  {id:"lezalit",  img:"Lezalit_Head.webp",  name:"Lezalit",               faction:"Bağımsız", role:"Yoldaş",
+  {id:"lezalit",  name:"Lezalit",               faction:"Bağımsız", role:"Yoldaş", img:"Lezalit_Head.webp",
     hints:["Eski bir ordu subayı","Disiplin ve düzeni önemser","Askerleri eğitmekte çok iyi"]},
-  {id:"marnid",   img:"Marnid_Head.webp",   name:"Marnid",                faction:"Bağımsız", role:"Yoldaş",
+  {id:"marnid",   name:"Marnid",                faction:"Bağımsız", role:"Yoldaş", img:"Marnid_Head.webp",
     hints:["Para kazanmayı savaşmaya tercih eder","Ticaret yollarını iyi bilir","Fırsatçı bir tüccar ruhu"]},
-  {id:"matheld",  img:"Matheld_Head.webp",  name:"Matheld",               faction:"Bağımsız", role:"Yoldaş",
-    hints:["Nord kültüründe büyümüş bir savaşçı","Ağır zırh ve kılıç kullanır","Güçlü ve kararlı bir kadın"]},
-  {id:"nizar",    img:"Nizar_Head.webp",    name:"Nizar",                 faction:"Bağımsız", role:"Yoldaş",
-    hints:["Kelimelerle de kılıç kadar güçlüdür","Güney topraklarından gelir","Zarif ama tehlikeli"]},
-  {id:"rolf",     img:"Rolf_Head.webp",     name:"Rolf",                  faction:"Bağımsız", role:"Yoldaş",
-    hints:["Ham kuvvetiyle öne çıkar","Kuzey asıllı iri yapılı biri","Az konuşur çok döver"]},
-  {id:"alayen",   img:"Alayen_Head.webp",   name:"Alayen",                faction:"Bağımsız", role:"Yoldaş",
+  {id:"matheld",  name:"Matheld",               faction:"Bağımsız", role:"Yoldaş", img:"Matheld_Head.webp",
+    hints:["Kuzey kültüründe büyümüş savaşçı kadın","Ağır zırh ve kılıç kullanır","Güçlü ve kararlı bir yapısı var"]},
+  {id:"nizar",    name:"Nizar",                 faction:"Bağımsız", role:"Yoldaş", img:"Nizar_Head.webp",
+    hints:["Kelimelerle de kılıç kadar güçlüdür","Güney topraklarından gelir","Zarif ama tehlikeli biri"]},
+  {id:"rolf",     name:"Rolf",                  faction:"Bağımsız", role:"Yoldaş", img:"Rolf_Head.webp",
+    hints:["Ham kuvvetiyle öne çıkar","Az konuşur çok döver","Kuzey asıllı iri yapılı biri"]},
+  {id:"alayen",   name:"Alayen",                faction:"Bağımsız", role:"Yoldaş", img:"Alayen_Head.webp",
     hints:["Uzaktan savaşmayı tercih eder","Güney kültüründen gelen bir kadın","Ok atışında keskin gözlü"]},
-  {id:"klethi",   img:"Klethi_Head.webp",   name:"Klethi",                faction:"Bağımsız", role:"Yoldaş",
+  {id:"klethi",   name:"Klethi",                faction:"Bağımsız", role:"Yoldaş", img:"Klethi_Head.webp",
     hints:["Yasayla arası hiç iyi olmamış","Çevik ve hızlı hareket eder","Karanlıkta çalışmayı sever"]},
-  {id:"baheshtur",img:"Baheshtur_Head.webp",name:"Baheshtur",             faction:"Bağımsız", role:"Yoldaş",
+  {id:"baheshtur",name:"Baheshtur",             faction:"Bağımsız", role:"Yoldaş", img:"Baheshtur_Head.webp",
     hints:["At üstünde doğmuş gibidir","Ok ve yay en iyi dostudur","Çöl ve bozkırı iyi bilir"]},
-  {id:"artimenner",img:"Artimenner_Head.webp",name:"Artimenner",           faction:"Bağımsız", role:"Yoldaş",
+  {id:"artimenner",name:"Artimenner",           faction:"Bağımsız", role:"Yoldaş", img:"Artimenner_Head.webp",
     hints:["Mühendisliğe tutkun biridir","Bir şeyler inşa etmeyi sever","Savaştan çok hesap yapar"]},
 ];
 const SK='swarband_s', TK='swarband_t';
@@ -842,7 +843,7 @@ function render(){
 
   const img=document.getElementById('char-img');
   let ph=document.getElementById('img-ph');if(ph)ph.remove();
-  if(ch.img){img.style.display='block';img.src=ch.img;}
+  if(ch.img){img.style.display='block';img.style.visibility='hidden';img.onload=function(){this.style.visibility='visible';};img.src=ch.img+"?v="+ch.id;}
   else{img.style.display='none';const p=document.createElement('div');p.id='img-ph';p.className='img-placeholder';p.innerHTML='<div class="img-placeholder-icon">⚔</div><div class="img-placeholder-text">Görsel Yok</div>';document.getElementById('img-wrap').appendChild(p);}
 
   for(let i=0;i<9;i++)document.getElementById('t'+i).className='cover-tile'+(i<state.revealed?' revealed':'');
