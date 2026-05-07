@@ -190,8 +190,8 @@ header {
 
 /* ── HINTS ── */
 .hints-row { width: var(--img-w); display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; margin-bottom: 12px; }
-.hint-tag { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; padding: 4px 10px; border-radius: 3px; border: 1px solid var(--border); color: var(--muted); transition: all 0.3s; }
-.hint-tag.show { border-color: var(--border2); color: var(--text); }
+.hint-tag { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; padding: 4px 10px; border-radius: 3px; border: 1px solid var(--border); color: var(--muted); transition: all 0.3s; display: none; }
+.hint-tag.show { border-color: var(--border2); color: var(--text); display: flex; }
 .hint-tag.show .ht-l { color: var(--gold); }
 .ht-l { color: var(--border2); margin-right: 4px; }
 
@@ -485,8 +485,8 @@ header {
 
 /* ── HINTS ── */
 .hints-row { width: 100%; max-width: 340px; display: flex; gap: 5px; flex-wrap: wrap; justify-content: center; margin-bottom: 12px; }
-.hint-tag { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 0.8px; text-transform: uppercase; padding: 4px 8px; border-radius: 3px; border: 1px solid var(--border); color: var(--muted); transition: all 0.3s; }
-.hint-tag.show { border-color: var(--border2); color: var(--text); }
+.hint-tag { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 0.8px; text-transform: uppercase; padding: 4px 8px; border-radius: 3px; border: 1px solid var(--border); color: var(--muted); transition: all 0.3s; display: none; }
+.hint-tag.show { border-color: var(--border2); color: var(--text); display: flex; }
 .hint-tag.show .ht-l { color: var(--gold); }
 .ht-l { color: var(--border2); margin-right: 3px; }
 
@@ -881,7 +881,13 @@ function render(){
   const hArr = [...ch.hints];
   for(let i=hArr.length-1;i>0;i--){const j=Math.abs((hSeed*(i+1)*2654435761)>>>0)%(i+1);[hArr[i],hArr[j]]=[hArr[j],hArr[i]];}
   const shownHints = hArr.slice(0,3);
-  shownHints.forEach((h,i)=>{const t=document.createElement('div');t.className='hint-tag'+(i<=state.attempts.length?' show':'');t.innerHTML=i<state.attempts.length?'<span class="ht-l">İpucu '+(i+1)+':</span>'+h:'<span class="ht-l">İpucu '+(i+1)+'</span>';hr.appendChild(t);});
+  shownHints.forEach((h,i)=>{
+    const t=document.createElement('div');
+    const visible = i<=state.attempts.length;
+    t.className='hint-tag'+(visible?' show':'');
+    t.innerHTML=visible?'<span class="ht-l">İpucu '+(i+1)+':</span>'+h:'<span class="ht-l">İpucu '+(i+1)+'</span>';
+    hr.appendChild(t);
+  });
 
   const gl=document.getElementById('guesses-list');gl.innerHTML='';
   state.attempts.forEach(g=>{const r=document.createElement('div');r.className='guess-row wrong';r.innerHTML='<span>✕ '+g+'</span><span style="color:var(--red2)">✕</span>';gl.appendChild(r);});
