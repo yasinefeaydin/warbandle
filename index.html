@@ -838,6 +838,33 @@ const CHARS = [
   {id:"artimenner",name:"Artimenner",             faction:"Bağımsız", role:"Yoldaş",
    img:"Artimenner_Head.webp",
    hints:["Yarı kel, gri sakallı, kırmızı mantolu yaşlı adam","Mühendislik ve kuşatma silahlarına tutkun","Ordu için katapult ve mancınık hesaplar","Savaş mühendisliğinde rakipsiz","Mühendislik istatistiği yoldaşlar arasında en yüksek"]},
+  {id:"alevalev",      name:"Alevalev",          faction:"Özel",     role:"NPC",
+   img:"Alevalev_webp.png",
+   hints:["Ateşin ortasında beliren gizemli figür","Alevlerin arasından çıkıyor","Kim olduğu tartışmalı bir karakter"]},
+
+  {id:"atsevdalisi",   name:"Atsevdalisi",        faction:"Özel",     role:"NPC",
+   img:"Atsevdalisi_webp.png",
+   hints:["Atıyla derin bir bağı var","Kırmızı kıyafetli süvari","Hayvanlarla iç içe biri"]},
+
+  {id:"dayakatankerimcan", name:"Dayakatankerimcan", faction:"Özel",  role:"NPC",
+   img:"Dayakatankerimcan_webp.png",
+   hints:["İki karakter bir arada görünüyor","Zorlu bir an yaşıyor olabilir","Dayanma gücü sınırlanmış biri"]},
+
+  {id:"gelinkerimcan", name:"Gelinkerimcan",      faction:"Özel",     role:"NPC",
+   img:"Gelinkerimcan_webp.png",
+   hints:["Beyaz kıyafetli gizemli bir figür","Çöl ortamında savaşmaya hazır","İki kılıç taşıyan alışılmadık bir savaşçı"]},
+
+  {id:"kaskokrali",    name:"Kaskokrali",         faction:"Özel",     role:"NPC",
+   img:"Kaskokrali.webp",
+   hints:["Renkli ve gösterişli kıyafetleri var","Kaskoyla özdeşleşmiş bir isim","Sahnede her zaman fark edilir"]},
+
+  {id:"kerimcanintar", name:"Kerimcanintar",      faction:"Özel",     role:"NPC",
+   img:"Kerimcanintar_webp.png",
+   hints:["Kırmızı-siyah iki renkli zırhı var","Ciddi ve kararlı bir bakışı var","Calradia sokaklarında tanınan bir yüz"]},
+
+  {id:"tipiniskm",     name:"Tipiniskm",          faction:"Özel",     role:"NPC",
+   img:"Tipiniskm_webp.png",
+   hints:["Dişe dokunur tipi olan biri","Calradia'nın dört bir yanında bilinir","Ne iş yaptığı tam belli değil"]}
 ];
 const SK='swarband_s', TK='swarband_t';
 const MAX=5, PTS=[500,400,300,200,100], DAILY=CHARS.length;
@@ -989,8 +1016,8 @@ function renderStats(){
 
 
 document.getElementById('copy-year').textContent=new Date().getFullYear();
-loadAll();
-if(!state.queue.length||state.date!==today()){state={date:today(),queue:buildQueue(),idx:0,attempts:[],revealed:0,over:false,won:false,score:0,dayStreak:0};save();}
+// Test modu - günlük limit yok, her yüklemede sıfırla
+state={date:today(),queue:buildQueue(),idx:0,attempts:[],revealed:0,over:false,won:false,score:0,dayStreak:0};save();
 render();
 if(!localStorage.getItem('swarband_v')){localStorage.setItem('swarband_v','1');setTimeout(()=>openM('modal-help'),700);}
 
